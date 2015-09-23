@@ -1,0 +1,8 @@
+prefix=/home/christian/catkin_ws/install
+
+Name: clock
+Description: Description of clock
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/christian/catkin_ws/install/lib 
+Requires: 

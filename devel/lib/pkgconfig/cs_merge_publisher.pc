@@ -1,0 +1,8 @@
+prefix=/home/christian/cs_merge_publication/cs_merge/devel
+
+Name: cs_merge_publisher
+Description: Description of cs_merge_publisher
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/christian/cs_merge_publication/cs_merge/devel/lib 
+Requires: std_msgs roscpp cs_merge_controller tf

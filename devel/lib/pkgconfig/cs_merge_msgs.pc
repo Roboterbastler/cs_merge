@@ -1,0 +1,8 @@
+prefix=/home/christian/cs_merge_publication/cs_merge/devel
+
+Name: cs_merge_msgs
+Description: Description of cs_merge_msgs
+Version: 0.0.0
+Cflags: -I/home/christian/cs_merge_publication/cs_merge/devel/include
+Libs: -L/home/christian/cs_merge_publication/cs_merge/devel/lib 
+Requires: message_runtime std_msgs

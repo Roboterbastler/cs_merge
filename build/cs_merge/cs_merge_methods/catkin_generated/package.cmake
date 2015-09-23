@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cs_merge_methods")
+set(cs_merge_methods_MAINTAINER "Christian Scheiderer <christian.scheiderer@gmail.com>")
+set(cs_merge_methods_DEPRECATED "")
+set(cs_merge_methods_VERSION "0.0.0")
+set(cs_merge_methods_BUILD_DEPENDS "std_msgs" "roscpp" "cs_merge_msgs")
+set(cs_merge_methods_RUN_DEPENDS "std_msgs" "roscpp" "cs_merge_msgs")
+set(cs_merge_methods_BUILDTOOL_DEPENDS "catkin")

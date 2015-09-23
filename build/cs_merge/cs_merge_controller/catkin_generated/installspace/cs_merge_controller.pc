@@ -1,0 +1,8 @@
+prefix=/home/christian/cs_merge_publication/cs_merge/install
+
+Name: cs_merge_controller
+Description: Description of cs_merge_controller
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/christian/cs_merge_publication/cs_merge/install/lib 
+Requires: cs_merge_msgs std_msgs roscpp

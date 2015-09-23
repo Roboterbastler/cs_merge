@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cs_merge_controller")
+set(cs_merge_controller_MAINTAINER "Christian Scheiderer <christian.scheiderer@gmail.com>")
+set(cs_merge_controller_DEPRECATED "")
+set(cs_merge_controller_VERSION "0.0.0")
+set(cs_merge_controller_BUILD_DEPENDS "std_msgs" "roscpp" "cs_merge_msgs" "cs_merge_methods")
+set(cs_merge_controller_RUN_DEPENDS "std_msgs" "roscpp" "cs_merge_msgs" "cs_merge_methods")
+set(cs_merge_controller_BUILDTOOL_DEPENDS "catkin")

@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cs_merge_msgs")
+set(cs_merge_msgs_MAINTAINER "Christian Scheiderer <christian.scheiderer@gmail.com>")
+set(cs_merge_msgs_DEPRECATED "")
+set(cs_merge_msgs_VERSION "0.0.0")
+set(cs_merge_msgs_BUILD_DEPENDS "std_msgs" "message_generation")
+set(cs_merge_msgs_RUN_DEPENDS "message_runtime" "std_msgs")
+set(cs_merge_msgs_BUILDTOOL_DEPENDS "catkin")

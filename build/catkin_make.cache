@@ -1,0 +1,2 @@
+cs_merge/cs_merge_controller:cs_merge/cs_merge_methods:cs_merge/cs_merge_msgs:cs_merge/cs_merge_publisher
+-DCATKIN_DEVEL_PREFIX=/home/christian/cs_merge_publication/cs_merge/devel -DCMAKE_INSTALL_PREFIX=/home/christian/cs_merge_publication/cs_merge/install -G Unix Makefiles

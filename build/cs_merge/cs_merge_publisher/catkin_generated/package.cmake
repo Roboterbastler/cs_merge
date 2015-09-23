@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "cs_merge_publisher")
+set(cs_merge_publisher_MAINTAINER "Christian Scheiderer <christian.scheiderer@gmail.com>")
+set(cs_merge_publisher_DEPRECATED "")
+set(cs_merge_publisher_VERSION "0.0.0")
+set(cs_merge_publisher_BUILD_DEPENDS "std_msgs" "roscpp" "cs_merge_controller" "tf")
+set(cs_merge_publisher_RUN_DEPENDS "std_msgs" "roscpp" "cs_merge_controller" "tf")
+set(cs_merge_publisher_BUILDTOOL_DEPENDS "catkin")

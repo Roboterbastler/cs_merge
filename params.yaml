@@ -1,0 +1,12 @@
+background_b: 255
+background_g: 86
+background_r: 0
+rosdistro: 'indigo
+
+  '
+roslaunch:
+  uris: {host_christian_easynote_lj75__32921: 'http://christian-EasyNote-LJ75:32921/'}
+rosversion: '1.11.10
+
+  '
+run_id: 03604866-c8e9-11e4-88ed-396db50dba1e

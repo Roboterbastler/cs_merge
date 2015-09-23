@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "clock")
+set(clock_MAINTAINER "christian <christian@todo.todo>")
+set(clock_DEPRECATED "")
+set(clock_VERSION "0.0.0")
+set(clock_BUILD_DEPENDS "roscpp" "rospy" "std_msgs")
+set(clock_RUN_DEPENDS "roscpp" "rospy" "std_msgs")
+set(clock_BUILDTOOL_DEPENDS "catkin")

@@ -1,0 +1,8 @@
+prefix=/home/christian/cs_merge_publication/cs_merge/install
+
+Name: cs_merge_methods
+Description: Description of cs_merge_methods
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/christian/cs_merge_publication/cs_merge/install/lib -lcs_merge_msgs
+Requires: std_msgs roscpp cs_merge_msgs
