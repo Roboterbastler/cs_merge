@@ -15,8 +15,8 @@ SET(CMAKE_TARGET_LINKED_INFO_FILES
 # The include file search paths:
 SET(CMAKE_C_TARGET_INCLUDE_PATH
   "../include"
-  "/home/christian/BachelorThesis/workspace/cs_merge/cs_merge_msgs/msg_gen/cpp/include"
-  "/home/christian/BachelorThesis/workspace/cs_merge/cs_merge_msgs/srv_gen/cpp/include"
+  "/home/christian/cs_merge_publication/cs_merge/cs_merge_msgs/msg_gen/cpp/include"
+  "/home/christian/cs_merge_publication/cs_merge/cs_merge_msgs/srv_gen/cpp/include"
   "/opt/ros/indigo/include"
   )
 SET(CMAKE_CXX_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})

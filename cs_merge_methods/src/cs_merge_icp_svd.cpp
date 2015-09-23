@@ -49,18 +49,11 @@ class occupancyMap
 {
 
 public:
-    occupancyMap(const std::string& topic, ros::NodeHandle nh) : topic_(topic), nh(nh)
+    occupancyMap(nav_msgs::OccupancyGrid& map)
     {
-        map_saved = false;
-
-        sub = nh.subscribe(topic_, 1, &occupancyMap::translateMap, this);
-    }
-
-    void translateMap(const nav_msgs::OccupancyGridConstPtr& map)
-    {
-        width = map->info.width;
-        height = map->info.height;
-        res = map->info.resolution;
+        width = map.info.width;
+        height = map.info.height;
+        res = map.info.resolution;
 
         pointsOccupied.clear();
         pointsFree.clear();
@@ -68,16 +61,16 @@ public:
         double center_x = 0;
         double center_y = 0;
 
-        for(unsigned int y = 0; y < map->info.height; y++) {
-            for(unsigned int x = 0; x < map->info.width; x++) {
-                unsigned int i = x + y * map->info.width;
-                if (map->data[i] == +100) {
+        for(unsigned int y = 0; y < map.info.height; y++) {
+            for(unsigned int x = 0; x < map.info.width; x++) {
+                unsigned int i = x + y * map.info.width;
+                if (map.data[i] == +100) {
                     pointsOccupied.push_back(point(x,y));
 
                     center_x += x;
                     center_y += y;
                 }
-                else if(map->data[i] == 0)
+                else if(map.data[i] == 0)
                 {
                    pointsFree.push_back(point(x,y));
                 }
@@ -372,15 +365,6 @@ transformation calculateTransform(occupancyMap map1, occupancyMap map2, double f
 
     ROS_INFO("%.3f", global_smallest_error);
 
-
-//    //Map um points2[0] um alpha1 - alpha2 drehen, dann um dr = opt1 - point2[0] verschieben
-
-//    x = (x-px)*cos(dalpha) - (y-py)*sin(dalpha) + ox;
-//    y = (x-px)*sin(dalpha) - (y-py)*cos(dalpha) + ox;
-
-//    x' = (x'-px)*cos(-dalpha) - (y'-py)*sin(-dalpha) - ox;
-//    y' = (x'-px)*sin(-dalpha) - (y'-py)*cos(-dalpha) - ox;
-
     transformation result(rotation, optimum_p1);
     return result;
 }
@@ -400,53 +384,26 @@ public:
                  cs_merge_msgs::getTransform::Response &res)
     {
         //Get first map
-        occupancyMap map1(req.topic_map_one, n);
+        occupancyMap map1(req.map_one);
+        occupancyMap map2(req.map_two);
 
-        while(!map1.map_saved && ros::ok())
-        {
-            ros::spinOnce();
-        }
-        map1.sub.shutdown();
 
-        //Get second map
-        occupancyMap map2(req.topic_map_two, n);
-
-        while(!map2.map_saved && ros::ok())
-        {
-            ros::spinOnce();
-        }
-        map2.sub.shutdown();
-
-        //Kicks in if ros::ok() == false
-        if(!map2.map_saved || !map1.map_saved)
-        {
-            ROS_ERROR("There has been a problem. Shutting down");
-            return 0;
-        }
-
-        double frac;
-        double rep;
-
-        std::cout << "enter frac: "; std::cin >> frac;
-        std::cout << "enter rep: "; std::cin >> rep;
-
-        ros::Time begin = ros::Time::now();
+//        ros::Time begin = ros::Time::now();
 
         transformation result = calculateTransform(map1, map2, frac, rep);
 
-        ros::Duration dauer = ros::Time::now() - begin;
+//        ros::Duration dauer = ros::Time::now() - begin;
 
-        ROS_INFO("Duration: %.5f", dauer.toSec());
+//        ROS_INFO("Duration: %.5f", dauer.toSec());
 
-        cs_merge_msgs::transform response;
+        res.result.stamp = ros::Time::now();
 
-        response.stamp = ros::Time::now();
+        res.result.rotation = result.rotation;
+        res.result.dx = result.translation.x;
+        res.result.dy = result.translation.y;
 
-        response.rotation = result.rotation;
-        response.dx = result.translation.x;
-        response.dy = result.translation.y;
+        ROS_INFO("%.3f, %.1f, %.1f", res.result.rotation, res.result.dx, res.result.dy);
 
-        res.result = response;
 
         //DEBUG
         double xtemp;
@@ -457,16 +414,16 @@ public:
             xtemp = it->x;
             ytemp = it->y;
 
-            it->x = xtemp * cos(response.rotation) - ytemp *sin(response.rotation) + response.dx;
-            it->y = xtemp * sin(response.rotation) + ytemp *cos(response.rotation) + response.dy;
+            it->x = xtemp * cos(res.result.rotation) - ytemp *sin(res.result.rotation) + res.result.dx;
+            it->y = xtemp * sin(res.result.rotation) + ytemp *cos(res.result.rotation) + res.result.dy;
         }
         for(std::vector<point>::iterator it = map2.pointsFree.begin(); it!=map2.pointsFree.end();it++)
         {
             xtemp = it->x;
             ytemp = it->y;
 
-            it->x = xtemp * cos(response.rotation) - ytemp *sin(response.rotation) + response.dx;
-            it->y = xtemp * sin(response.rotation) + ytemp *cos(response.rotation) + response.dy;
+            it->x = xtemp * cos(res.result.rotation) - ytemp *sin(res.result.rotation) + res.result.dx;
+            it->y = xtemp * sin(res.result.rotation) + ytemp *cos(res.result.rotation) + res.result.dy;
         }
 
         std::vector<point> occ2;
@@ -478,72 +435,14 @@ public:
         free2.insert(free2.end(), map1.pointsFree.begin(), map1.pointsFree.end());
         free2.insert(free2.end(), map2.pointsFree.begin(), map2.pointsFree.end());
 
-        drawMap(occ2,free2,"icp2", .05);
-
-        //Evaluate
-        double agr = 0;
-        double dis = 0;
-
-        bool matched;
-
-        for(std::vector<point>::iterator it2 = map2.pointsOccupied.begin(); it2!=map2.pointsOccupied.end(); it2++)
-        {
-            matched = false;
-
-            for(std::vector<point>::iterator it3 = map1.pointsOccupied.begin(); it3!=map1.pointsOccupied.end(); it3++)
-            {
-                if(abs(it2->x - it3->x) < 1 && abs(it2->y - it3->y) < 1) //two occupied points overlay --> hit
-                {
-                    matched = true;
-                    agr++;
-                    break;
-                }
-            }
-
-            if(!matched) //no match found, maybe its a miss
-            {
-                for(std::vector<point>::iterator it3 = map1.pointsFree.begin(); it3!=map1.pointsFree.end(); it3++)
-                {
-                    if(abs(it2->x - it3->x) < 1 && abs(it2->y - it3->y) < 1) //occupied and free overlay --> miss
-                    {
-                        dis++;
-                        break;
-                    }
-                }
-            }
-        }
-
-        for(std::vector<point>::iterator it2 = map1.pointsOccupied.begin(); it2!=map1.pointsOccupied.end(); it2++)
-        {
-            matched = false;
-
-            for(std::vector<point>::iterator it3 = map2.pointsOccupied.begin(); it3!=map2.pointsOccupied.end(); it3++)
-            {
-                if(abs(it3->x - it2->x) < 1 && abs(it3->y - it2->y) < 1) //two occupied points overlay --> hit
-                {
-                    matched = true;
-                    //already counted as agr in first check
-                    break;
-                }
-            }
-
-            if(!matched) //no match found, maybe its a miss
-            {
-                for(std::vector<point>::iterator it3 = map2.pointsFree.begin(); it3!=map2.pointsFree.end(); it3++)
-                {
-                    if(abs(it3->x - it2->x) < 1 && abs(it3->y - it2->y) < 1) //occupied and free overlay --> miss
-                    {
-                        dis++;
-                        break;
-                    }
-                }
-            }
-        }
+        drawMap(occ2,free2,"icp_svd", .05);
 
         return true;
     }
 
     ros::NodeHandle n;
+    double frac;
+    double rep;
 };
 
 

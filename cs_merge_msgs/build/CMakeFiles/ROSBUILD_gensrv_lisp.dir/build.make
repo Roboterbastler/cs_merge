@@ -93,7 +93,13 @@ CMakeFiles/ROSBUILD_gensrv_lisp: ../srv_gen/lisp/_package_getTransform.lisp
 ../srv_gen/lisp/getTransform.lisp: ../srv/getTransform.srv
 ../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/roslisp/rosbuild/scripts/genmsg_lisp.py
 ../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/roslib/cmake/../../../lib/roslib/gendeps
+../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/geometry_msgs/msg/Quaternion.msg
 ../srv_gen/lisp/getTransform.lisp: ../msg/transform.msg
+../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/std_msgs/msg/Header.msg
+../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/geometry_msgs/msg/Pose.msg
+../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/geometry_msgs/msg/Point.msg
+../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/nav_msgs/msg/MapMetaData.msg
+../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/nav_msgs/msg/OccupancyGrid.msg
 ../srv_gen/lisp/getTransform.lisp: ../manifest.xml
 ../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/cpp_common/package.xml
 ../srv_gen/lisp/getTransform.lisp: /opt/ros/indigo/share/rostime/package.xml

@@ -4,18 +4,91 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
+import geometry_msgs.msg
+import nav_msgs.msg
+import genpy
+import std_msgs.msg
 
 class getTransformRequest(genpy.Message):
-  _md5sum = "4dde61cc12adda5723edb461ea239cf4"
+  _md5sum = "ada89033b0dcc741eab33caf37ae322e"
   _type = "cs_merge_msgs/getTransformRequest"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """
-string topic_map_one
-string topic_map_two
+nav_msgs/OccupancyGrid map_one
+nav_msgs/OccupancyGrid map_two
+
+================================================================================
+MSG: nav_msgs/OccupancyGrid
+# This represents a 2-D grid map, in which each cell represents the probability of
+# occupancy.
+
+Header header 
+
+#MetaData for the map
+MapMetaData info
+
+# The map data, in row-major order, starting with (0,0).  Occupancy
+# probabilities are in the range [0,100].  Unknown is -1.
+int8[] data
+
+================================================================================
+MSG: std_msgs/Header
+# Standard metadata for higher-level stamped data types.
+# This is generally used to communicate timestamped data 
+# in a particular coordinate frame.
+# 
+# sequence ID: consecutively increasing ID 
+uint32 seq
+#Two-integer timestamp that is expressed as:
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')
+# time-handling sugar is provided by the client library
+time stamp
+#Frame this data is associated with
+# 0: no frame
+# 1: global frame
+string frame_id
+
+================================================================================
+MSG: nav_msgs/MapMetaData
+# This hold basic information about the characterists of the OccupancyGrid
+
+# The time at which the map was loaded
+time map_load_time
+# The map resolution [m/cell]
+float32 resolution
+# Map width [cells]
+uint32 width
+# Map height [cells]
+uint32 height
+# The origin of the map [m, m, rad].  This is the real-world pose of the
+# cell (0,0) in the map.
+geometry_msgs/Pose origin
+================================================================================
+MSG: geometry_msgs/Pose
+# A representation of pose in free space, composed of postion and orientation. 
+Point position
+Quaternion orientation
+
+================================================================================
+MSG: geometry_msgs/Point
+# This contains the position of a point in free space
+float64 x
+float64 y
+float64 z
+
+================================================================================
+MSG: geometry_msgs/Quaternion
+# This represents an orientation in free space in quaternion form.
+
+float64 x
+float64 y
+float64 z
+float64 w
 
 """
-  __slots__ = ['topic_map_one','topic_map_two']
-  _slot_types = ['string','string']
+  __slots__ = ['map_one','map_two']
+  _slot_types = ['nav_msgs/OccupancyGrid','nav_msgs/OccupancyGrid']
 
   def __init__(self, *args, **kwds):
     """
@@ -25,7 +98,7 @@ string topic_map_two
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       topic_map_one,topic_map_two
+       map_one,map_two
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -34,13 +107,13 @@ string topic_map_two
     if args or kwds:
       super(getTransformRequest, self).__init__(*args, **kwds)
       #message fields cannot be None, assign default values for those that are
-      if self.topic_map_one is None:
-        self.topic_map_one = ''
-      if self.topic_map_two is None:
-        self.topic_map_two = ''
+      if self.map_one is None:
+        self.map_one = nav_msgs.msg.OccupancyGrid()
+      if self.map_two is None:
+        self.map_two = nav_msgs.msg.OccupancyGrid()
     else:
-      self.topic_map_one = ''
-      self.topic_map_two = ''
+      self.map_one = nav_msgs.msg.OccupancyGrid()
+      self.map_two = nav_msgs.msg.OccupancyGrid()
 
   def _get_types(self):
     """
@@ -54,7 +127,9 @@ string topic_map_two
     :param buff: buffer, ``StringIO``
     """
     try:
-      _x = self.topic_map_one
+      _x = self
+      buff.write(_struct_3I.pack(_x.map_one.header.seq, _x.map_one.header.stamp.secs, _x.map_one.header.stamp.nsecs))
+      _x = self.map_one.header.frame_id
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
@@ -63,7 +138,15 @@ string topic_map_two
         buff.write(struct.pack('<I%sB'%length, length, *_x))
       else:
         buff.write(struct.pack('<I%ss'%length, length, _x))
-      _x = self.topic_map_two
+      _x = self
+      buff.write(_struct_2If2I7d.pack(_x.map_one.info.map_load_time.secs, _x.map_one.info.map_load_time.nsecs, _x.map_one.info.resolution, _x.map_one.info.width, _x.map_one.info.height, _x.map_one.info.origin.position.x, _x.map_one.info.origin.position.y, _x.map_one.info.origin.position.z, _x.map_one.info.origin.orientation.x, _x.map_one.info.origin.orientation.y, _x.map_one.info.origin.orientation.z, _x.map_one.info.origin.orientation.w))
+      length = len(self.map_one.data)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sb'%length
+      buff.write(struct.pack(pattern, *self.map_one.data))
+      _x = self
+      buff.write(_struct_3I.pack(_x.map_two.header.seq, _x.map_two.header.stamp.secs, _x.map_two.header.stamp.nsecs))
+      _x = self.map_two.header.frame_id
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
@@ -72,6 +155,12 @@ string topic_map_two
         buff.write(struct.pack('<I%sB'%length, length, *_x))
       else:
         buff.write(struct.pack('<I%ss'%length, length, _x))
+      _x = self
+      buff.write(_struct_2If2I7d.pack(_x.map_two.info.map_load_time.secs, _x.map_two.info.map_load_time.nsecs, _x.map_two.info.resolution, _x.map_two.info.width, _x.map_two.info.height, _x.map_two.info.origin.position.x, _x.map_two.info.origin.position.y, _x.map_two.info.origin.position.z, _x.map_two.info.origin.orientation.x, _x.map_two.info.origin.orientation.y, _x.map_two.info.origin.orientation.z, _x.map_two.info.origin.orientation.w))
+      length = len(self.map_two.data)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sb'%length
+      buff.write(struct.pack(pattern, *self.map_two.data))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
 
@@ -81,25 +170,59 @@ string topic_map_two
     :param str: byte array of serialized message, ``str``
     """
     try:
+      if self.map_one is None:
+        self.map_one = nav_msgs.msg.OccupancyGrid()
+      if self.map_two is None:
+        self.map_two = nav_msgs.msg.OccupancyGrid()
       end = 0
+      _x = self
+      start = end
+      end += 12
+      (_x.map_one.header.seq, _x.map_one.header.stamp.secs, _x.map_one.header.stamp.nsecs,) = _struct_3I.unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
       start = end
       end += length
       if python3:
-        self.topic_map_one = str[start:end].decode('utf-8')
+        self.map_one.header.frame_id = str[start:end].decode('utf-8')
       else:
-        self.topic_map_one = str[start:end]
+        self.map_one.header.frame_id = str[start:end]
+      _x = self
+      start = end
+      end += 76
+      (_x.map_one.info.map_load_time.secs, _x.map_one.info.map_load_time.nsecs, _x.map_one.info.resolution, _x.map_one.info.width, _x.map_one.info.height, _x.map_one.info.origin.position.x, _x.map_one.info.origin.position.y, _x.map_one.info.origin.position.z, _x.map_one.info.origin.orientation.x, _x.map_one.info.origin.orientation.y, _x.map_one.info.origin.orientation.z, _x.map_one.info.origin.orientation.w,) = _struct_2If2I7d.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sb'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.map_one.data = struct.unpack(pattern, str[start:end])
+      _x = self
+      start = end
+      end += 12
+      (_x.map_two.header.seq, _x.map_two.header.stamp.secs, _x.map_two.header.stamp.nsecs,) = _struct_3I.unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
       start = end
       end += length
       if python3:
-        self.topic_map_two = str[start:end].decode('utf-8')
+        self.map_two.header.frame_id = str[start:end].decode('utf-8')
       else:
-        self.topic_map_two = str[start:end]
+        self.map_two.header.frame_id = str[start:end]
+      _x = self
+      start = end
+      end += 76
+      (_x.map_two.info.map_load_time.secs, _x.map_two.info.map_load_time.nsecs, _x.map_two.info.resolution, _x.map_two.info.width, _x.map_two.info.height, _x.map_two.info.origin.position.x, _x.map_two.info.origin.position.y, _x.map_two.info.origin.position.z, _x.map_two.info.origin.orientation.x, _x.map_two.info.origin.orientation.y, _x.map_two.info.origin.orientation.z, _x.map_two.info.origin.orientation.w,) = _struct_2If2I7d.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sb'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.map_two.data = struct.unpack(pattern, str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -112,7 +235,9 @@ string topic_map_two
     :param numpy: numpy python module
     """
     try:
-      _x = self.topic_map_one
+      _x = self
+      buff.write(_struct_3I.pack(_x.map_one.header.seq, _x.map_one.header.stamp.secs, _x.map_one.header.stamp.nsecs))
+      _x = self.map_one.header.frame_id
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
@@ -121,7 +246,15 @@ string topic_map_two
         buff.write(struct.pack('<I%sB'%length, length, *_x))
       else:
         buff.write(struct.pack('<I%ss'%length, length, _x))
-      _x = self.topic_map_two
+      _x = self
+      buff.write(_struct_2If2I7d.pack(_x.map_one.info.map_load_time.secs, _x.map_one.info.map_load_time.nsecs, _x.map_one.info.resolution, _x.map_one.info.width, _x.map_one.info.height, _x.map_one.info.origin.position.x, _x.map_one.info.origin.position.y, _x.map_one.info.origin.position.z, _x.map_one.info.origin.orientation.x, _x.map_one.info.origin.orientation.y, _x.map_one.info.origin.orientation.z, _x.map_one.info.origin.orientation.w))
+      length = len(self.map_one.data)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sb'%length
+      buff.write(self.map_one.data.tostring())
+      _x = self
+      buff.write(_struct_3I.pack(_x.map_two.header.seq, _x.map_two.header.stamp.secs, _x.map_two.header.stamp.nsecs))
+      _x = self.map_two.header.frame_id
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
@@ -130,6 +263,12 @@ string topic_map_two
         buff.write(struct.pack('<I%sB'%length, length, *_x))
       else:
         buff.write(struct.pack('<I%ss'%length, length, _x))
+      _x = self
+      buff.write(_struct_2If2I7d.pack(_x.map_two.info.map_load_time.secs, _x.map_two.info.map_load_time.nsecs, _x.map_two.info.resolution, _x.map_two.info.width, _x.map_two.info.height, _x.map_two.info.origin.position.x, _x.map_two.info.origin.position.y, _x.map_two.info.origin.position.z, _x.map_two.info.origin.orientation.x, _x.map_two.info.origin.orientation.y, _x.map_two.info.origin.orientation.z, _x.map_two.info.origin.orientation.w))
+      length = len(self.map_two.data)
+      buff.write(_struct_I.pack(length))
+      pattern = '<%sb'%length
+      buff.write(self.map_two.data.tostring())
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
 
@@ -140,30 +279,66 @@ string topic_map_two
     :param numpy: numpy python module
     """
     try:
+      if self.map_one is None:
+        self.map_one = nav_msgs.msg.OccupancyGrid()
+      if self.map_two is None:
+        self.map_two = nav_msgs.msg.OccupancyGrid()
       end = 0
+      _x = self
+      start = end
+      end += 12
+      (_x.map_one.header.seq, _x.map_one.header.stamp.secs, _x.map_one.header.stamp.nsecs,) = _struct_3I.unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
       start = end
       end += length
       if python3:
-        self.topic_map_one = str[start:end].decode('utf-8')
+        self.map_one.header.frame_id = str[start:end].decode('utf-8')
       else:
-        self.topic_map_one = str[start:end]
+        self.map_one.header.frame_id = str[start:end]
+      _x = self
+      start = end
+      end += 76
+      (_x.map_one.info.map_load_time.secs, _x.map_one.info.map_load_time.nsecs, _x.map_one.info.resolution, _x.map_one.info.width, _x.map_one.info.height, _x.map_one.info.origin.position.x, _x.map_one.info.origin.position.y, _x.map_one.info.origin.position.z, _x.map_one.info.origin.orientation.x, _x.map_one.info.origin.orientation.y, _x.map_one.info.origin.orientation.z, _x.map_one.info.origin.orientation.w,) = _struct_2If2I7d.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sb'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.map_one.data = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=length)
+      _x = self
+      start = end
+      end += 12
+      (_x.map_two.header.seq, _x.map_two.header.stamp.secs, _x.map_two.header.stamp.nsecs,) = _struct_3I.unpack(str[start:end])
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
       start = end
       end += length
       if python3:
-        self.topic_map_two = str[start:end].decode('utf-8')
+        self.map_two.header.frame_id = str[start:end].decode('utf-8')
       else:
-        self.topic_map_two = str[start:end]
+        self.map_two.header.frame_id = str[start:end]
+      _x = self
+      start = end
+      end += 76
+      (_x.map_two.info.map_load_time.secs, _x.map_two.info.map_load_time.nsecs, _x.map_two.info.resolution, _x.map_two.info.width, _x.map_two.info.height, _x.map_two.info.origin.position.x, _x.map_two.info.origin.position.y, _x.map_two.info.origin.position.z, _x.map_two.info.origin.orientation.x, _x.map_two.info.origin.orientation.y, _x.map_two.info.origin.orientation.z, _x.map_two.info.origin.orientation.w,) = _struct_2If2I7d.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      pattern = '<%sb'%length
+      start = end
+      end += struct.calcsize(pattern)
+      self.map_two.data = numpy.frombuffer(str[start:end], dtype=numpy.int8, count=length)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
+_struct_3I = struct.Struct("<3I")
+_struct_2If2I7d = struct.Struct("<2If2I7d")
 """autogenerated by genpy from cs_merge_msgs/getTransformResponse.msg. Do not edit."""
 import sys
 python3 = True if sys.hexversion > 0x03000000 else False
@@ -283,6 +458,6 @@ _struct_I = genpy.struct_I
 _struct_2I3d = struct.Struct("<2I3d")
 class getTransform(object):
   _type          = 'cs_merge_msgs/getTransform'
-  _md5sum = '972de1e3b8810d34e2aa284314fffb13'
+  _md5sum = '33cf49a04ac4ccb9206baa236692fb49'
   _request_class  = getTransformRequest
   _response_class = getTransformResponse

@@ -87,7 +87,13 @@ CMakeFiles/ROSBUILD_gensrv_cpp: ../srv_gen/cpp/include/cs_merge_msgs/getTransfor
 ../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/roscpp/rosbuild/scripts/gensrv_cpp.py
 ../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/roscpp/rosbuild/scripts/genmsg_cpp.py
 ../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/roslib/cmake/../../../lib/roslib/gendeps
+../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/geometry_msgs/msg/Quaternion.msg
 ../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: ../msg/transform.msg
+../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/std_msgs/msg/Header.msg
+../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/geometry_msgs/msg/Pose.msg
+../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/geometry_msgs/msg/Point.msg
+../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/nav_msgs/msg/MapMetaData.msg
+../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/nav_msgs/msg/OccupancyGrid.msg
 ../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: ../manifest.xml
 ../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/cpp_common/package.xml
 ../srv_gen/cpp/include/cs_merge_msgs/getTransform.h: /opt/ros/indigo/share/rostime/package.xml

@@ -29,7 +29,7 @@ struct point {
         x = 0;
         y = 0;
     }
-    
+
     point(const point& p) : x(p.x), y(p.y)
     {
 	}
@@ -50,23 +50,14 @@ class occupancyMap
 {
 
 public:
-    occupancyMap(const std::string& topic, ros::NodeHandle nh) : topic_(topic), nh(nh)
-	{
-        ROS_INFO("create map");
-
-		map_saved = false;
-
-        sub = nh.subscribe(topic_, 1, &occupancyMap::translateMap, this);
-    }
-
-    void translateMap(const nav_msgs::OccupancyGridConstPtr& map)
+    occupancyMap(nav_msgs::OccupancyGrid& map)
     {
         ROS_INFO("translate map");
 
         //Punkte extrahieren
-        width = map->info.width;
-        height = map->info.height;
-        res = map->info.resolution;
+        width = map.info.width;
+        height = map.info.height;
+        res = map.info.resolution;
 
         pointsOccupied.clear();
         pointsFree.clear();
@@ -74,16 +65,16 @@ public:
         center_x = 0;
         center_y = 0;
 
-        for(unsigned int y = 0; y < map->info.height; y++) {
-            for(unsigned int x = 0; x < map->info.width; x++) {
-                unsigned int i = x + y * map->info.width;
-                if (map->data[i] == +100) { //occ (0.65,1]
+        for(unsigned int y = 0; y < map.info.height; y++) {
+            for(unsigned int x = 0; x < map.info.width; x++) {
+                unsigned int i = x + y * map.info.width;
+                if (map.data[i] == +100) { //occ (0.65,1]
                     pointsOccupied.push_back(point(x,y));
 
                     center_x += x;
                     center_y += y;
                 }
-                else if(map->data[i] == 0)
+                else if(map.data[i] == 0)
                 {
                    pointsFree.push_back(point(x,y));
                 }
@@ -436,33 +427,10 @@ public:
     {
         //format topic -> cs_map_agent
 
-        ROS_INFO("icp requested: %s, %s", req.topic_map_one.c_str(), req.topic_map_two.c_str());
 
-        occupancyMap map1(req.topic_map_one, n);
+        occupancyMap map1(req.map_one);
 
-        while(!map1.map_saved && ros::ok()) //until map received
-        {
-            ros::spinOnce();
-        }
-        map1.sub.shutdown();
-
-        ROS_INFO("Got map1");
-
-        occupancyMap map2(req.topic_map_two, n);
-
-        while(!map2.map_saved && ros::ok()) //until map received
-        {
-            ros::spinOnce();
-        }
-        map2.sub.shutdown();
-
-        ROS_INFO("Got map2");
-
-        if(!map2.map_saved || !map1.map_saved) //Check if maps are really fetched
-        {
-            ROS_ERROR("There has been a problem getting the maps");
-            return 0;
-        }
+        occupancyMap map2(req.map_two);
 
         ros::NodeHandle ns("~");
 
@@ -480,8 +448,6 @@ public:
 
         transformation result = calculateTransform(map1, map2, frac, repetitions);
 
-        ROS_INFO("Transform from %s to %s:\nRotation Center: (%.3f, %.3f)\nReference Point: (%.3f, %.3f)\nRotation: %.3fdeg",
-                 req.topic_map_two.c_str(), req.topic_map_one.c_str(), result.rotationCenter.x, result.rotationCenter.y, result.reference.x, result.reference.y, result.angle/DEG2RAD);
 
         ros::Duration dauer = begin - ros::Time::now();
         ROS_INFO("Duration: %.5f", dauer.toSec());
@@ -645,7 +611,7 @@ int main(int argc, char **argv)
 
     ROS_INFO("ICP MERGING");
 
-    ros::ServiceServer service = n.advertiseService("cs_merge_icp", &Framework::execute, &frame);
+    ros::ServiceServer service = n.advertiseService("cs_merge_icp_gradient", &Framework::execute, &frame);
 
     ros::spin();
 

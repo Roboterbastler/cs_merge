@@ -90,7 +90,13 @@ CMakeFiles/ROSBUILD_gensrv_py: ../src/cs_merge_msgs/srv/__init__.py
 ../src/cs_merge_msgs/srv/_getTransform.py: ../srv/getTransform.srv
 ../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/rospy/rosbuild/scripts/gensrv_py.py
 ../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/roslib/cmake/../../../lib/roslib/gendeps
+../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/geometry_msgs/msg/Quaternion.msg
 ../src/cs_merge_msgs/srv/_getTransform.py: ../msg/transform.msg
+../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/std_msgs/msg/Header.msg
+../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/geometry_msgs/msg/Pose.msg
+../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/geometry_msgs/msg/Point.msg
+../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/nav_msgs/msg/MapMetaData.msg
+../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/nav_msgs/msg/OccupancyGrid.msg
 ../src/cs_merge_msgs/srv/_getTransform.py: ../manifest.xml
 ../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/cpp_common/package.xml
 ../src/cs_merge_msgs/srv/_getTransform.py: /opt/ros/indigo/share/rostime/package.xml

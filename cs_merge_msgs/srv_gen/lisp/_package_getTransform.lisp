@@ -1,8 +1,8 @@
 (cl:in-package cs_merge_msgs-srv)
-(cl:export '(TOPIC_MAP_ONE-VAL
-          TOPIC_MAP_ONE
-          TOPIC_MAP_TWO-VAL
-          TOPIC_MAP_TWO
+(cl:export '(MAP_ONE-VAL
+          MAP_ONE
+          MAP_TWO-VAL
+          MAP_TWO
           RESULT-VAL
           RESULT
 ))

@@ -16,6 +16,8 @@
 
 #include "ros/service_traits.h"
 
+#include "nav_msgs/OccupancyGrid.h"
+#include "nav_msgs/OccupancyGrid.h"
 
 
 #include "cs_merge_msgs/transform.h"
@@ -27,22 +29,22 @@ struct getTransformRequest_ {
   typedef getTransformRequest_<ContainerAllocator> Type;
 
   getTransformRequest_()
-  : topic_map_one()
-  , topic_map_two()
+  : map_one()
+  , map_two()
   {
   }
 
   getTransformRequest_(const ContainerAllocator& _alloc)
-  : topic_map_one(_alloc)
-  , topic_map_two(_alloc)
+  : map_one(_alloc)
+  , map_two(_alloc)
   {
   }
 
-  typedef std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  _topic_map_one_type;
-  std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  topic_map_one;
+  typedef  ::nav_msgs::OccupancyGrid_<ContainerAllocator>  _map_one_type;
+   ::nav_msgs::OccupancyGrid_<ContainerAllocator>  map_one;
 
-  typedef std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  _topic_map_two_type;
-  std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  topic_map_two;
+  typedef  ::nav_msgs::OccupancyGrid_<ContainerAllocator>  _map_two_type;
+   ::nav_msgs::OccupancyGrid_<ContainerAllocator>  map_two;
 
 
   typedef boost::shared_ptr< ::cs_merge_msgs::getTransformRequest_<ContainerAllocator> > Ptr;
@@ -105,12 +107,12 @@ template<class ContainerAllocator>
 struct MD5Sum< ::cs_merge_msgs::getTransformRequest_<ContainerAllocator> > {
   static const char* value() 
   {
-    return "4dde61cc12adda5723edb461ea239cf4";
+    return "ada89033b0dcc741eab33caf37ae322e";
   }
 
   static const char* value(const  ::cs_merge_msgs::getTransformRequest_<ContainerAllocator> &) { return value(); } 
-  static const uint64_t static_value1 = 0x4dde61cc12adda57ULL;
-  static const uint64_t static_value2 = 0x23edb461ea239cf4ULL;
+  static const uint64_t static_value1 = 0xada89033b0dcc741ULL;
+  static const uint64_t static_value2 = 0xeab33caf37ae322eULL;
 };
 
 template<class ContainerAllocator>
@@ -128,8 +130,77 @@ struct Definition< ::cs_merge_msgs::getTransformRequest_<ContainerAllocator> > {
   static const char* value() 
   {
     return "\n\
-string topic_map_one\n\
-string topic_map_two\n\
+nav_msgs/OccupancyGrid map_one\n\
+nav_msgs/OccupancyGrid map_two\n\
+\n\
+================================================================================\n\
+MSG: nav_msgs/OccupancyGrid\n\
+# This represents a 2-D grid map, in which each cell represents the probability of\n\
+# occupancy.\n\
+\n\
+Header header \n\
+\n\
+#MetaData for the map\n\
+MapMetaData info\n\
+\n\
+# The map data, in row-major order, starting with (0,0).  Occupancy\n\
+# probabilities are in the range [0,100].  Unknown is -1.\n\
+int8[] data\n\
+\n\
+================================================================================\n\
+MSG: std_msgs/Header\n\
+# Standard metadata for higher-level stamped data types.\n\
+# This is generally used to communicate timestamped data \n\
+# in a particular coordinate frame.\n\
+# \n\
+# sequence ID: consecutively increasing ID \n\
+uint32 seq\n\
+#Two-integer timestamp that is expressed as:\n\
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n\
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n\
+# time-handling sugar is provided by the client library\n\
+time stamp\n\
+#Frame this data is associated with\n\
+# 0: no frame\n\
+# 1: global frame\n\
+string frame_id\n\
+\n\
+================================================================================\n\
+MSG: nav_msgs/MapMetaData\n\
+# This hold basic information about the characterists of the OccupancyGrid\n\
+\n\
+# The time at which the map was loaded\n\
+time map_load_time\n\
+# The map resolution [m/cell]\n\
+float32 resolution\n\
+# Map width [cells]\n\
+uint32 width\n\
+# Map height [cells]\n\
+uint32 height\n\
+# The origin of the map [m, m, rad].  This is the real-world pose of the\n\
+# cell (0,0) in the map.\n\
+geometry_msgs/Pose origin\n\
+================================================================================\n\
+MSG: geometry_msgs/Pose\n\
+# A representation of pose in free space, composed of postion and orientation. \n\
+Point position\n\
+Quaternion orientation\n\
+\n\
+================================================================================\n\
+MSG: geometry_msgs/Point\n\
+# This contains the position of a point in free space\n\
+float64 x\n\
+float64 y\n\
+float64 z\n\
+\n\
+================================================================================\n\
+MSG: geometry_msgs/Quaternion\n\
+# This represents an orientation in free space in quaternion form.\n\
+\n\
+float64 x\n\
+float64 y\n\
+float64 z\n\
+float64 w\n\
 \n\
 ";
   }
@@ -203,8 +274,8 @@ template<class ContainerAllocator> struct Serializer< ::cs_merge_msgs::getTransf
 {
   template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
   {
-    stream.next(m.topic_map_one);
-    stream.next(m.topic_map_two);
+    stream.next(m.map_one);
+    stream.next(m.map_two);
   }
 
   ROS_DECLARE_ALLINONE_SERIALIZER;
@@ -238,7 +309,7 @@ template<>
 struct MD5Sum<cs_merge_msgs::getTransform> {
   static const char* value() 
   {
-    return "972de1e3b8810d34e2aa284314fffb13";
+    return "33cf49a04ac4ccb9206baa236692fb49";
   }
 
   static const char* value(const cs_merge_msgs::getTransform&) { return value(); } 
@@ -258,7 +329,7 @@ template<class ContainerAllocator>
 struct MD5Sum<cs_merge_msgs::getTransformRequest_<ContainerAllocator> > {
   static const char* value() 
   {
-    return "972de1e3b8810d34e2aa284314fffb13";
+    return "33cf49a04ac4ccb9206baa236692fb49";
   }
 
   static const char* value(const cs_merge_msgs::getTransformRequest_<ContainerAllocator> &) { return value(); } 
@@ -278,7 +349,7 @@ template<class ContainerAllocator>
 struct MD5Sum<cs_merge_msgs::getTransformResponse_<ContainerAllocator> > {
   static const char* value() 
   {
-    return "972de1e3b8810d34e2aa284314fffb13";
+    return "33cf49a04ac4ccb9206baa236692fb49";
   }
 
   static const char* value(const cs_merge_msgs::getTransformResponse_<ContainerAllocator> &) { return value(); } 

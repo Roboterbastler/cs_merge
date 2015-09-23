@@ -69,20 +69,8 @@ class occupancyMap
 {
 
 public:
-    occupancyMap(const std::string& topic, ros::NodeHandle nh) : topic_(topic), nh(nh)
-	{
-		map_saved = false;
-
-        sub = nh.subscribe(topic_, 1, &occupancyMap::translateMap, this);
-    }
-
-    void translateMap(const nav_msgs::OccupancyGridConstPtr& received_map)
+    occupancyMap(nav_msgs::OccupancyGrid& received_map)
     {
-        //Punkte extrahieren
-//        ROS_INFO("Received a %d X %d map @ %.3f m/pix", map->info.width, map->info.height, map->info.resolution);
-
-        map = *received_map;
-
         width = map.info.width;
         height = map.info.height;
         res = map.info.resolution;
@@ -567,39 +555,17 @@ public:
 
         //format topic -> cs_map_agent
 
-        occupancyMap map1(req.topic_map_one, n);
+        occupancyMap map1(req.map_one);
 
-        while(!map1.map_saved && ros::ok()) //so lange, bis map erfasst
-        {
-            ros::spinOnce();
-        }
+        occupancyMap map2(req.map_two);
 
-        map1.sub.shutdown();
-
-        occupancyMap map2(req.topic_map_two, n);
-
-        while(!map2.map_saved && ros::ok()) //so lange, bis map erfasst
-        {
-            ros::spinOnce();
-        }
-        map2.sub.shutdown();
-
-        if(!map2.map_saved || !map1.map_saved) //Check if maps are really fetched
-        {
-            ROS_ERROR("There has been a problem. ros::ok() returned false. Shutting down");
-            return 0;
-        }
-
-        ros::Time begin = ros::Time::now();
+//        ros::Time begin = ros::Time::now();
 
         transformation result = calculateTransform(map1, map2);
 
-        ros::Duration dauer = ros::Time::now() - begin;
+//        ros::Duration dauer = ros::Time::now() - begin;
 
-        ROS_INFO("Duration: %.5f", dauer.toSec());
-
-        ROS_INFO("Transform from %s to %s:\nrotation: %.3f\ntranslation: %.3f, %.3f\n",
-                 req.topic_map_two.c_str(), req.topic_map_one.c_str(), result.rotation, result.translation.x, result.translation.y);
+//        ROS_INFO("Duration: %.5f", dauer.toSec());
 
 
         //
@@ -670,7 +636,7 @@ int main(int argc, char **argv)
 
     ROS_INFO("HOUGH MERGING");
 
-    ros::ServiceServer service = n.advertiseService("cs_merge_hough_two", &Framework::execute, &frame);
+    ros::ServiceServer service = n.advertiseService("cs_merge_hough_corner", &Framework::execute, &frame);
 
     ros::spin();
 

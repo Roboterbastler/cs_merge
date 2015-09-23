@@ -136,6 +136,7 @@ public:
 
         //DEBUG
         methods.push_back("cs_merge_icp_svd");
+				methods.push_back("cs_merge_hough_ccr");
     }
 
     bool sendWorld(cs_merge_msgs::getWorld::Request &req,
@@ -213,8 +214,8 @@ public:
 
             solutions.clear();
 
-            srv.request.topic_map_one = "map";
-            srv.request.topic_map_two = "/" + it->partner + "/map"; //info.name.substr(1, info.name.size()-1); //remove slash
+            srv.request.map_one = map;
+            srv.request.map_two = it->map; //info.name.substr(1, info.name.size()-1); //remove slash
 
             //Perform Algorithms
             for(std::vector<std::string>::iterator it2 = methods.begin(); it2 != methods.end(); it2++)
@@ -252,13 +253,12 @@ public:
                 }
             }
 
-            ROS_INFO("Best eval: %.3f", best_evaluation);
-
             if(best_evaluation != -1)
             {
-                if(best_evaluation > it->next_best.evaluation || !it->init) //new transformation is better than existing
+                if(best_evaluation < it->next_best.evaluation || !it->init) //new transformation is better than existing
                 {
                     ROS_INFO("%.3f is better than %.3f", best_evaluation, it->next_best.evaluation);
+										ROS_INFO("%i", it->init);
                     it->next_best = solutions[best_transform_index];
                     it->init = true;
                 }
@@ -361,7 +361,7 @@ public:
     void updateMap()
     {
         //Update own map
-        ROS_INFO("update map");
+        //ROS_INFO("update map");
 
         initialized = false;
         mapSub = n.subscribe("map" , 1, &ConnectionHandler::refreshOwn, this);

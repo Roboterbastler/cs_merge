@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher
+CMAKE_SOURCE_DIR = /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build
+CMAKE_BINARY_DIR = /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/cs_merge_publisher.dir/depend.make
@@ -72,10 +72,9 @@ CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/share/geometry_msgs/package.xml
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/share/actionlib_msgs/package.xml
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/share/nav_msgs/package.xml
-CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_msgs/manifest.xml
-CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_hough/manifest.xml
-CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_icp/manifest.xml
-CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_controller/manifest.xml
+CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/cs_merge_publication/cs_merge/cs_merge_msgs/manifest.xml
+CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/cs_merge_publication/cs_merge/cs_merge_methods/manifest.xml
+CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/cs_merge_publication/cs_merge/cs_merge_controller/manifest.xml
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/share/message_filters/package.xml
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/share/rosgraph/package.xml
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/share/rosclean/package.xml
@@ -104,19 +103,19 @@ CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/share/tf2_py/package.xml
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/share/tf2_ros/package.xml
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /opt/ros/indigo/share/tf/package.xml
-CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_msgs/msg_gen/generated
-CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_msgs/srv_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build/CMakeFiles $(CMAKE_PROGRESS_1)
+CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/cs_merge_publication/cs_merge/cs_merge_msgs/msg_gen/generated
+CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o: /home/christian/cs_merge_publication/cs_merge/cs_merge_msgs/srv_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o -c /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/src/cs_merge_publisher.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o -c /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/src/cs_merge_publisher.cpp
 
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/src/cs_merge_publisher.cpp > CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/src/cs_merge_publisher.cpp > CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.i
 
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/src/cs_merge_publisher.cpp -o CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/src/cs_merge_publisher.cpp -o CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.s
 
 CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o.requires:
 .PHONY : CMakeFiles/cs_merge_publisher.dir/src/cs_merge_publisher.cpp.o.requires
@@ -152,6 +151,6 @@ CMakeFiles/cs_merge_publisher.dir/clean:
 .PHONY : CMakeFiles/cs_merge_publisher.dir/clean
 
 CMakeFiles/cs_merge_publisher.dir/depend:
-	cd /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build/CMakeFiles/cs_merge_publisher.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build/CMakeFiles/cs_merge_publisher.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/cs_merge_publisher.dir/depend
 

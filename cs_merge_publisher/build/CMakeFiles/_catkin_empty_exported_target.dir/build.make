@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher
+CMAKE_SOURCE_DIR = /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build
+CMAKE_BINARY_DIR = /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build
 
 # Utility rule file for _catkin_empty_exported_target.
 
@@ -60,6 +60,6 @@ CMakeFiles/_catkin_empty_exported_target.dir/clean:
 .PHONY : CMakeFiles/_catkin_empty_exported_target.dir/clean
 
 CMakeFiles/_catkin_empty_exported_target.dir/depend:
-	cd /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build /home/christian/BachelorThesis/workspace/cs_merge/cs_merge_publisher/build/CMakeFiles/_catkin_empty_exported_target.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build /home/christian/cs_merge_publication/cs_merge/cs_merge_publisher/build/CMakeFiles/_catkin_empty_exported_target.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/_catkin_empty_exported_target.dir/depend
 

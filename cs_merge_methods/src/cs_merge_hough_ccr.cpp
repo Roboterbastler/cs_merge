@@ -101,21 +101,11 @@ class occupancyMap
 {
 
 public:
-    occupancyMap(const std::string& topic, ros::NodeHandle nh) : topic_(topic), nh(nh)
+    occupancyMap(nav_msgs::OccupancyGrid& map)
 	{
-		map_saved = false;
-
-        sub = nh.subscribe(topic_, 1, &occupancyMap::translateMap, this);
-    }
-
-		/**
-		* Translates OccupancyGrid in point cloud.
-		*/
-    void translateMap(const nav_msgs::OccupancyGridConstPtr& map)
-    {
-        width = map->info.width;
-        height = map->info.height;
-        res = map->info.resolution;
+        width = map.info.width;
+        height = map.info.height;
+        res = map.info.resolution;
 
         pointsOccupied.clear();
         pointsFree.clear();
@@ -123,22 +113,21 @@ public:
         center.x = width/2;
         center.y = height/2;
 
-        for(int y = 0; y < map->info.height; y++) {
-            for(int x = 0; x < map->info.width; x++) {
-                int i = x + y * map->info.width;
-                if (map->data[i] == +100) { //occ (0.65,1]
+        for(int y = 0; y < map.info.height; y++) {
+            for(int x = 0; x < map.info.width; x++) {
+                int i = x + y * map.info.width;
+                if (map.data[i] == +100) { //occ (0.65,1]
                     pointsOccupied.push_back(point(x - width/2,y - height/2));
 
                     //std::cout << x << "," << y <<  "   " << width/2 << "," << height/2 <<  "    (" << x-width/2 << ", " << y-height/2 << ")" << std::endl;
                 }
-                else if(map->data[i] == 0)
+                else if(map.data[i] == 0)
                 {
                     pointsFree.push_back(point(x - width/2,y - height/2));
                 }
             }
         }
 
-		map_saved = true;
 	}
 
 		/**
@@ -222,7 +211,6 @@ public:
 	std::string topic_;
     ros::NodeHandle nh;
     ros::Subscriber sub;
-	bool map_saved;
 	std::vector<point> pointsOccupied;
     std::vector<point> pointsFree;
     std::vector<unsigned int> accu;
@@ -409,7 +397,7 @@ transformation calculateTransform(occupancyMap map1, occupancyMap map2, double t
 
 
         //ROS_INFO("transform: %.1f, %.1f", dx,dy);
-        drawMap(map1.pointsOccupied,pointsOccupied2_copy,str2, .05);
+        //drawMap(map1.pointsOccupied,pointsOccupied2_copy,str2, .05);
 
 
         //evaluate Transform
@@ -521,29 +509,9 @@ public:
                  cs_merge_msgs::getTransform::Response &res)
     {
 				//Get first map
-        occupancyMap map1(req.topic_map_one, n);
+        occupancyMap map1(req.map_one);
 
-        while(!map1.map_saved && ros::ok())
-        {
-            ros::spinOnce();
-        }
-        map1.sub.shutdown();
-
-				//Get second map
-        occupancyMap map2(req.topic_map_two, n);
-
-        while(!map2.map_saved && ros::ok())
-        {
-            ros::spinOnce();
-        }
-        map2.sub.shutdown();
-
-				//Kicks in if ros::ok() == false
-        if(!map2.map_saved || !map1.map_saved)
-        {
-            ROS_ERROR("There has been a problem. Shutting down");
-            return 0;
-        }
+        occupancyMap map2(req.map_two);
 
 				//Debugging: runtime
         //ros::Time begin = ros::Time::now();
@@ -558,35 +526,37 @@ public:
         //ros::Duration dur = ros::Time::now() - begin;
         //ROS_INFO("Duration: %.5f", dur.toSec());
 
+				ROS_ERROR("Done");
+
 
 				//Decenter maps. Was used for debugging
 
 
 				//#################### DEBUGGING ZONE #####################//
 
-        for(std::vector<point>::iterator it = map1occ.begin(); it != map1occ.end(); it++)
-        {
-            it->x += map1.center.x;
-            it->y += map1.center.y;
-        }
-
-        for(std::vector<point>::iterator it = map1free.begin(); it != map1free.end(); it++)
-        {
-            it->x += map1.center.x;
-            it->y += map1.center.y;
-        }
-
-        for(std::vector<point>::iterator it = map2occ.begin(); it != map2occ.end(); it++)
-        {
-            it->x += map2.center.x;
-            it->y += map2.center.y;
-        }
-
-        for(std::vector<point>::iterator it = map2free.begin(); it != map2.pointsFree.end(); it++)
-        {
-            it->x += map2.center.x;
-            it->y += map2.center.y;
-        }
+        // for(std::vector<point>::iterator it = map1occ.begin(); it != map1occ.end(); it++)
+        // {
+        //     it->x += map1.center.x;
+        //     it->y += map1.center.y;
+        // }
+				//
+        // for(std::vector<point>::iterator it = map1free.begin(); it != map1free.end(); it++)
+        // {
+        //     it->x += map1.center.x;
+        //     it->y += map1.center.y;
+        // }
+				//
+        // for(std::vector<point>::iterator it = map2occ.begin(); it != map2occ.end(); it++)
+        // {
+        //     it->x += map2.center.x;
+        //     it->y += map2.center.y;
+        // }
+				//
+        // for(std::vector<point>::iterator it = map2free.begin(); it != map2.pointsFree.end(); it++)
+        // {
+        //     it->x += map2.center.x;
+        //     it->y += map2.center.y;
+        // }
 
         cs_merge_msgs::transform response;
 
@@ -599,41 +569,41 @@ public:
         response.dy = (map1.center.y + result.translation.y - (map2.center.x * sin(response.rotation) + map2.center.y * cos(response.rotation)));
 
 
-        double xtemp;
-        double ytemp;
+        // double xtemp;
+        // double ytemp;
+				//
+        // for(std::vector<point>::iterator it = map2occ.begin(); it!=map2occ.end();it++)
+        // {
+        //     xtemp = it->x;
+        //     ytemp = it->y;
+				//
+        //     it->x = xtemp * cos(response.rotation) - ytemp *sin(response.rotation) + response.dx;
+        //     it->y = xtemp * sin(response.rotation) + ytemp *cos(response.rotation) + response.dy;
+        // }
+        // for(std::vector<point>::iterator it = map2.pointsFree.begin(); it!=map2.pointsFree.end();it++)
+        // {
+        //     xtemp = it->x;
+        //     ytemp = it->y;
+				//
+        //     it->x = xtemp * cos(response.rotation) - ytemp *sin(response.rotation) + response.dx;
+        //     it->y = xtemp * sin(response.rotation) + ytemp *cos(response.rotation) + response.dy;
+        // }
+				//
+        // //drawMap(map1occ,map1free,"hough1", .05);
+        // //drawMap(map2occ,map2.pointsFree,"hough2", .05);
+				//
+				//
+        // std::vector<point> occ2;
+        // occ2.reserve(map1occ.size() + map2occ.size());
+        // occ2.insert(occ2.end(), map1occ.begin(), map1occ.end());
+        // occ2.insert(occ2.end(), map2occ.begin(), map2occ.end());
+        // std::vector<point> free2;
+        // free2.reserve(map1free.size() + map2.pointsFree.size());
+        // free2.insert(free2.end(), map1free.begin(), map1free.end());
+        // free2.insert(free2.end(), map2.pointsFree.begin(), map2.pointsFree.end());
 
-        for(std::vector<point>::iterator it = map2occ.begin(); it!=map2occ.end();it++)
-        {
-            xtemp = it->x;
-            ytemp = it->y;
 
-            it->x = xtemp * cos(response.rotation) - ytemp *sin(response.rotation) + response.dx;
-            it->y = xtemp * sin(response.rotation) + ytemp *cos(response.rotation) + response.dy;
-        }
-        for(std::vector<point>::iterator it = map2.pointsFree.begin(); it!=map2.pointsFree.end();it++)
-        {
-            xtemp = it->x;
-            ytemp = it->y;
-
-            it->x = xtemp * cos(response.rotation) - ytemp *sin(response.rotation) + response.dx;
-            it->y = xtemp * sin(response.rotation) + ytemp *cos(response.rotation) + response.dy;
-        }
-
-        drawMap(map1occ,map1free,"hough1", .05);
-        drawMap(map2occ,map2.pointsFree,"hough2", .05);
-
-
-        std::vector<point> occ2;
-        occ2.reserve(map1occ.size() + map2occ.size());
-        occ2.insert(occ2.end(), map1occ.begin(), map1occ.end());
-        occ2.insert(occ2.end(), map2occ.begin(), map2occ.end());
-        std::vector<point> free2;
-        free2.reserve(map1free.size() + map2.pointsFree.size());
-        free2.insert(free2.end(), map1free.begin(), map1free.end());
-        free2.insert(free2.end(), map2.pointsFree.begin(), map2.pointsFree.end());
-
-
-        drawMap(occ2,free2,"after", .05);
+        //drawMap(occ2,free2,"after", .05);
 
 				//################## DEBUNNGING END ####################//
 
