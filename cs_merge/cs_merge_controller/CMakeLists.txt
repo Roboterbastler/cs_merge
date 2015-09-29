@@ -7,8 +7,8 @@ project(cs_merge_controller)
 find_package(catkin REQUIRED COMPONENTS
   std_msgs
   roscpp
-  cs_merge_msgs
   cs_merge_methods
+  cs_merge_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -81,7 +81,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES hector_elevation_msgs
-  CATKIN_DEPENDS cs_merge_msgs std_msgs roscpp
+  CATKIN_DEPENDS std_msgs roscpp cs_merge_methods cs_merge_msgs
 #  DEPENDS system_lib
 )
 

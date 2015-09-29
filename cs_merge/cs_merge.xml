@@ -1,0 +1,9 @@
+<stack>
+  <description brief="cs_merge">cs_merge enables the merging of maps in a multi-agent system</description>
+  <author>Christian Scheiderer</author>
+  <license>MIT</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/cs_merge</url>
+  <depend stack="ros" />
+
+</stack>

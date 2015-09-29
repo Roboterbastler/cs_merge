@@ -391,10 +391,6 @@ transformation calculateTransform(occupancyMap map1, occupancyMap map2)
     std::vector<maximum> tempmax1;
     std::vector<maximum> tempmax2;
 
-
-    ROS_INFO("max1: %d, max2: %d", max1.size(), max2.size());
-
-
 //    //debug ende
 
 

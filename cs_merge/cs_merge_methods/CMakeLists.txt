@@ -5,8 +5,8 @@ project(cs_merge_methods)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  std_msgs
   roscpp
+  std_msgs
   cs_merge_msgs
 )
 
@@ -79,8 +79,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-  LIBRARIES cs_merge_msgs
-  CATKIN_DEPENDS std_msgs roscpp cs_merge_msgs
+#  LIBRARIES cs_merge_msgs
+#  CATKIN_DEPENDS std_msgs roscpp cs_merge_msgs
 #  DEPENDS system_lib
 )
 
@@ -108,23 +108,23 @@ add_executable(cs_merge_hough_corner src/cs_merge_hough_corner.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(cs_merge_icp_svd cs_merge_msgs/msg/transform.msg)
-add_dependencies(cs_merge_icp_gradient cs_merge_msgs/msg/transform.msg)
-add_dependencies(cs_merge_hough_ccr cs_merge_msgs/msg/transform.msg)
-add_dependencies(cs_merge_hough_corner cs_merge_msgs/msg/transform.msg)
+add_dependencies(cs_merge_icp_svd ${catkin_EXPORTED_TARGETS})
+add_dependencies(cs_merge_icp_gradient ${catkin_EXPORTED_TARGETS})
+add_dependencies(cs_merge_hough_ccr ${catkin_EXPORTED_TARGETS})
+add_dependencies(cs_merge_hough_corner ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(cs_merge_icp_svd
-   ${catkin_LIBRARIES}
+  ${catkin_LIBRARIES}
 )
 target_link_libraries(cs_merge_icp_gradient
-   ${catkin_LIBRARIES}
+  ${catkin_LIBRARIES}
 )
 target_link_libraries(cs_merge_hough_ccr
-   ${catkin_LIBRARIES}
+  ${catkin_LIBRARIES}
 )
 target_link_libraries(cs_merge_hough_corner
-   ${catkin_LIBRARIES}
+  ${catkin_LIBRARIES}
 )
 
 #############
