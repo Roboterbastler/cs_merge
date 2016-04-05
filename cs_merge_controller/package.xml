@@ -2,7 +2,7 @@
   <name>cs_merge_controller</name>
   <version>1.0.0</version>
   <description>
-  This package defines all messages and services.
+  This package provides a collection of map merging algorithms.
   </description>
   <maintainer email="christian.scheiderer@gmail.com">Christian Scheiderer</maintainer>
   <license>MIT</license>
@@ -10,12 +10,9 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>message_generation</build_depend>
-
-  <exec_depend>message_runtime</exec_depend>
-
-  <depend>std_msgs</depend>
-  <depend>nav_msgs</depend>
   <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>cs_merge_msgs</depend>
+  <depend>cs_merge_methods</depend>
 
 </package>

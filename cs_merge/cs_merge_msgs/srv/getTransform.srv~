@@ -1,6 +1,0 @@
-#map topics
-string map_one
-string map_two
----
-#best transform
-cs_merge_msgs/transform result

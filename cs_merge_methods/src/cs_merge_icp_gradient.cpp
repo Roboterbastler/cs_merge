@@ -435,14 +435,10 @@ public:
         ros::NodeHandle ns("~");
 
         double frac = .5;
-        //ns.getParam("ransac_amount", frac);
-
         int repetitions = 25;
-        //ns.getParam("repetitions", repetitions);
 
-
-        std::cout << "enter frac: "; std::cin >> frac;
-        std::cout << "enter rep: "; std::cin >> repetitions;
+        ns.getParam("ransac_amount", frac);
+        ns.getParam("repetitions", repetitions);
 
         ros::Time begin = ros::Time::now();
 
@@ -609,7 +605,7 @@ int main(int argc, char **argv)
 
     Framework frame(n);
 
-    ROS_INFO("ICP MERGING");
+    ROS_INFO("ICP GRADIENT MERGING");
 
     ros::ServiceServer service = n.advertiseService("cs_merge_icp_gradient", &Framework::execute, &frame);
 

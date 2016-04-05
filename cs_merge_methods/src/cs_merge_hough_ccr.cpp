@@ -631,7 +631,7 @@ int main(int argc, char **argv)
 
     Framework frame(n);
 
-    ROS_INFO("HOUGH MERGING");
+    ROS_INFO("HOUGH CCR MERGING");
 
     ros::ServiceServer service = n.advertiseService("cs_merge_hough_ccr", &Framework::execute, &frame);
 

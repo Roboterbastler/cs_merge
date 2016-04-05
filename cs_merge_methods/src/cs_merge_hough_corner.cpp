@@ -297,7 +297,7 @@ double evaluate(occupancyMap &map1, occupancyMap &map2, double rot, double dx, d
 
     if(agr && dis)
     {
-        ROS_ERROR("agr: %.3f\ndis: %.3f\nnom: %.3f\neval: %.7f\n",agr,dis,nomatch, agr / (((agr+dis)*nomatch)));
+        ROS_INFO("agr: %.3f\ndis: %.3f\nnom: %.3f\neval: %.7f\n",agr,dis,nomatch, agr / (((agr+dis)*nomatch)));
         return agr / (agr+dis);
     }
     else
@@ -305,9 +305,9 @@ double evaluate(occupancyMap &map1, occupancyMap &map2, double rot, double dx, d
 }
 
 
-transformation calculateTransform(occupancyMap map1, occupancyMap map2)
+transformation calculateTransform(occupancyMap map1, occupancyMap map2, double threshold)
 {
-    ROS_INFO("perform hough2");
+    ROS_INFO("perform hough_corner");
 
     double r11;
     double r12;
@@ -342,33 +342,6 @@ transformation calculateTransform(occupancyMap map1, occupancyMap map2)
 
     std::vector<maximum> allmax1 = getMaxima(map1.accu, thresholdmax1);
     std::vector<maximum> allmax2 = getMaxima(map2.accu, thresholdmax2);
-
-
-//    std::vector<maximum> debugmax1 = getMaxima(map1.accu, 45, 135, threshold);
-//    std::vector<maximum> debugmax2 = getMaxima(map2.accu, 45, 135, threshold);
-
-
-//Debug
-//    for(int i = 0; i<max1.size(); i++)
-//    {
-//        std::cout << max1[i].angle << "  " << max1[i].radius << std::endl;
-//        std::cout << max2[i].angle << "  " << max2[i].radius  << std::endl;
-//    }
-
-//    std::cout << "debugamount" << debugmax1.size() << "  " << debugmax2.size() << std::endl;
-
-//    for(int i = 0; i<debugmax1.size(); i++)
-//    {
-//        std::cout << debugmax1[i].angle << "  " << debugmax1[i].radius << std::endl;
-//        std::cout << debugmax2[i].angle << "  " << debugmax2[i].radius  << std::endl;
-//    }
-
-
-
-    double threshold;
-
-    ROS_INFO("Enter thres: ");
-    std::cin >> threshold;
 
     thresholdmax1 *= threshold;
     thresholdmax2 *= threshold;
@@ -555,9 +528,15 @@ public:
 
         occupancyMap map2(req.map_two);
 
+	double threshold = 0;
+
+	n.getParam("threshold", threshold);
+
+	ROS_INFO("Threshold: %f", threshold);
+
 //        ros::Time begin = ros::Time::now();
 
-        transformation result = calculateTransform(map1, map2);
+        transformation result = calculateTransform(map1, map2, threshold);
 
 //        ros::Duration dauer = ros::Time::now() - begin;
 
@@ -630,7 +609,7 @@ int main(int argc, char **argv)
 
     Framework frame(n);
 
-    ROS_INFO("HOUGH MERGING");
+    ROS_INFO("HOUGH CORNER MERGING");
 
     ros::ServiceServer service = n.advertiseService("cs_merge_hough_corner", &Framework::execute, &frame);
 

@@ -1,0 +1,18 @@
+<package format="2">
+  <name>cs_merge_publisher</name>
+  <version>1.0.0</version>
+  <description>
+  This package provides the capability to publish the merged map under /ns/world.
+  </description>
+  <maintainer email="christian.scheiderer@gmail.com">Christian Scheiderer</maintainer>
+  <license>MIT</license>
+  <url>http://wiki.ros.org/cs_merge</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>cs_merge_controller</depend>
+  <depend>tf</depend>
+
+</package>

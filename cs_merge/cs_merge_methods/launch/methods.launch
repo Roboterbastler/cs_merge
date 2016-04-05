@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-
-<launch>
-	<node pkg="cs_merge_methods" type="cs_merge_icp_svd" name="cs_merge_icp_svd" output="screen">
-	<param name="repetitions" value="10" />
-	<param name="fraction" value="0.5" />
-	<param name="startPos" value="100" />
-</node>
-</launch>

@@ -82,6 +82,8 @@ struct connection {
 
     connection(std::string partner) : partner(partner)
     {
+        updated = false;
+        map_available = false;
         init = false;
     }
 
@@ -100,9 +102,15 @@ struct connection {
             }
         }
 
+        ROS_INFO("OCC_POINTS %s: %i", partner.c_str(), (int) occ_points.size());
 
-        map_available = true;
-        updated = true;
+        if(occ_points.size() != 0) {
+          map_available = true;
+          updated = true;
+        }
+
+
+
 
         ROS_INFO("get map from %s", partner.c_str());
     }
@@ -120,11 +128,14 @@ public:
 
         n.getParam("agents", agents);
 
+	ROS_INFO("%i Agents:", (int) agents.size());
+
+	for(std::vector<std::string>::iterator it = agents.begin(); it != agents.end(); it++)
+        {
+	    ROS_INFO(" - %s", (*it).c_str());
+        }
+
         service = n.advertiseService("cs_merge_getWorld", &ConnectionHandler::sendWorld, this);
-
-
-        //DEBUG
-        agents.push_back("boreas");
 
         for(std::vector<std::string>::iterator it = agents.begin(); it != agents.end(); it++)
         {
@@ -134,9 +145,12 @@ public:
 
         n.getParam("methods", methods);
 
-        //DEBUG
-        methods.push_back("cs_merge_icp_svd");
-				methods.push_back("cs_merge_hough_ccr");
+	ROS_INFO("%i Methods:", (int) methods.size());
+
+	for(std::vector<std::string>::iterator it = methods.begin(); it != methods.end(); it++)
+        {
+	    ROS_INFO(" - %s", (*it).c_str());
+        }
     }
 
     bool sendWorld(cs_merge_msgs::getWorld::Request &req,
@@ -224,7 +238,7 @@ public:
 
                 if (client.call(srv))
                 {
-										ROS_INFO("Using ServiceNode %s", (*it2).c_str());
+		    ROS_INFO("Using ServiceNode %s", (*it2).c_str());
 
                     result = srv.response.result;
 
@@ -417,6 +431,7 @@ public:
 
             mapSub = n.subscribe("/" + it->partner + "/map" , 1, &connection::getMap, &(*it));
 
+            //TODO: Launchfile parameter
             timeout = ros::Time::now() + ros::Duration(5); //1 second timeout, if map topic isnt available
 
             while(ros::ok() && !it->updated && (timeout - ros::Time::now()) > ros::Duration(0))
@@ -424,8 +439,12 @@ public:
                 ros::spinOnce();
             }
 
+            ROS_INFO("Map %s available: %d", it->partner.c_str(), it->map_available);
+
+            ROS_INFO("Current eval: %f", it->current.evaluation);
+
             //Then add map to world
-            if(it->map_available)
+            if(it->map_available && it->current.evaluation != -1)
             {
                 ROS_INFO("Add map: %s", it->partner.c_str());
                 addMap(it->map, it->current);
