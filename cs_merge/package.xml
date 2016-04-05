@@ -1,0 +1,11 @@
+<package format="2">
+  <name>cs_merge</name>
+  <version>1.0.0</version>
+  <description>
+  These packages provide the capability to merge maps. Intended for multi-agent systems.
+  </description>
+  <maintainer email="christian.scheiderer@gmail.com">Christian Scheiderer</maintainer>
+  <license>MIT</license>
+  <url>http://ros.org/wiki/cs_merge</url>
+
+</package>
